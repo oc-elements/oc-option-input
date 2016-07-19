@@ -1,0 +1,64 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
+
+<!--
+`oc-option-input`
+Element to capture an Ordercloud Option
+
+@demo demo/index.html 
+-->
+
+<dom-module id="oc-option-input">
+  <style>
+    :host {
+      display: block;
+    }
+    paper-button {
+      margin: 10px
+    }
+  </style>
+  <template>
+    <paper-input id="inputName" label="Name" required auto-validate error-message="Please provide a name"></paper-input>
+    <paper-input id="inputDescription" label="Description" required auto-validate error-message="Please provide a description"></paper-input>
+    <paper-input id="inputPrice" label="Price" required auto-validate error-message="Please provide a price"></paper-input>
+    <paper-button on-tap="_onOk" >Create Option</paper-button>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'oc-option-input',
+
+      properties: {
+      },
+
+      _onOk: function() {
+        if (this._valid) {
+          this.fire('create', {
+            name: this.$.inputName.value,
+            description: this.$.inputDescription.value,
+            displayName: this.$.inputPrice.value
+          });
+        }
+      },
+
+      _valid: function() {
+        return !(this.$.inputName.invalid || this.$.inputPrice.invalid || this.$.inputDescription.invalid);
+      },
+
+      clear: function() {
+        this.$.inputName.autoValidate = false;
+        this.$.inputName.value = '';
+        this.$.inputName.autoValidate = true;
+
+        this.$.inputDescription.autoValidate = false;
+        this.$.inputDescription.value = '';
+        this.$.inputDescription.autoValidate = true;
+
+        this.$.inputPrice.autoValidate = false;
+        this.$.inputPrice.value = '';
+        this.$.inputPrice.autoValidate = true;
+      }
+    });
+  </script>
+</dom-module>
