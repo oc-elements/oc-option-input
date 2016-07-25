@@ -23,6 +23,7 @@ Element to capture an Ordercloud Option
     <paper-input id="inputDescription" label="Description" required auto-validate error-message="Please provide a description"></paper-input>
     <paper-input id="inputPrice" label="Price" required auto-validate error-message="Please provide a price"></paper-input>
     <paper-button on-tap="_onOk" >Create Option</paper-button>
+    <paper-button on-tap="_onCancel" >Cancel</paper-button>
   </template>
 
   <script>
@@ -40,6 +41,10 @@ Element to capture an Ordercloud Option
             displayName: this.$.inputPrice.value
           });
         }
+      },
+
+      _onCancel: function() {
+        this.fire('cancel');
       },
 
       _valid: function() {
