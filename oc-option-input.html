@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
 
 <!--
 `oc-option-input`
@@ -22,6 +23,7 @@ Element to capture an Ordercloud Option
     <paper-input id="inputName" label="Name" required auto-validate error-message="Please provide a name"></paper-input>
     <paper-input id="inputDescription" label="Description" required auto-validate error-message="Please provide a description"></paper-input>
     <paper-input id="inputPrice" label="Price" required auto-validate error-message="Please provide a price"></paper-input>
+    <paper-toggle-button hidden$="{{!pluFlatmapping}}" id="inputFlatmapping" label="Price" noink>Items Plu Flat Mapping</paper-toggle-button>
     <paper-button on-tap="_onOk" >Create Option</paper-button>
     <paper-button on-tap="_onCancel" >Cancel</paper-button>
   </template>
@@ -31,6 +33,7 @@ Element to capture an Ordercloud Option
       is: 'oc-option-input',
 
       properties: {
+        pluFlatmapping : Boolean
       },
 
       _onOk: function() {
@@ -38,7 +41,8 @@ Element to capture an Ordercloud Option
           this.fire('create', {
             name: this.$.inputName.value,
             description: this.$.inputDescription.value,
-            displayName: this.$.inputPrice.value
+            price: this.$.inputPrice.value,
+            flatMapping: this.$.inputFlatmapping.value
           });
         }
       },
@@ -63,6 +67,8 @@ Element to capture an Ordercloud Option
         this.$.inputPrice.autoValidate = false;
         this.$.inputPrice.value = '';
         this.$.inputPrice.autoValidate = true;
+
+        this.$.inputFlatmapping.value = false;
       }
     });
   </script>
