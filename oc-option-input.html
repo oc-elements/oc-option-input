@@ -23,7 +23,9 @@ Element to capture an Ordercloud Option
     <paper-input id="inputName" label="Name" required auto-validate error-message="Please provide a name"></paper-input>
     <paper-input id="inputDescription" label="Description" required auto-validate error-message="Please provide a description"></paper-input>
     <paper-input id="inputPrice" label="Price" required auto-validate error-message="Please provide a price"></paper-input>
-    <paper-toggle-button hidden$="{{!pluFlatmapping}}" id="inputFlatmapping" label="Price" noink>Items Plu Flat Mapping</paper-toggle-button>
+    <template is="dom-if" if="{{pluFlatmapping}}">
+      <paper-toggle-button id="inputFlatmapping" noink>Items Plu Flat Mapping</paper-toggle-button>
+    </template>
     <paper-button on-tap="_onOk" >Create Option</paper-button>
     <paper-button on-tap="_onCancel" >Cancel</paper-button>
   </template>
@@ -38,12 +40,17 @@ Element to capture an Ordercloud Option
 
       _onOk: function() {
         if (this._valid) {
-          this.fire('create', {
+
+          var params = {
             name: this.$.inputName.value,
             description: this.$.inputDescription.value,
             price: this.$.inputPrice.value,
-            itemsPluFlatMappingEnabled: this.$.inputFlatmapping.value
-          });
+            itemsPluFlatMappingEnabled: this.$$('#inputFlatmapping').active
+          };
+
+          params.itemsPluFlatMappingEnabled = (this.pluFlatmapping) ? this.$$('#inputFlatmapping').active : false;
+
+          this.fire('create', params);
         }
       },
 
@@ -68,7 +75,10 @@ Element to capture an Ordercloud Option
         this.$.inputPrice.value = '';
         this.$.inputPrice.autoValidate = true;
 
-        this.$.inputFlatmapping.value = false;
+        if(this.pluFlatmapping){
+          this.$$('#inputFlatmapping').active = false;
+        }
+
       }
     });
   </script>
